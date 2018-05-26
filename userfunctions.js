@@ -6,9 +6,7 @@ const login = function(name, password, database, cb) {
         if (err) throw err
 
         let storedPassword = result[0].password;
-
         if (storedPassword === password) {
-            console.log('password is right');
             cb(true);
         } else {
             cb(false);

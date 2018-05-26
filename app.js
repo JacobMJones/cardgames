@@ -1,4 +1,3 @@
-//#region Set variables, app.uses, connect to Mongodb
 const express = require("express");
 const bodyParser = require('body-parser');
 const Mongo = require('mongodb');
@@ -26,24 +25,20 @@ MongoClient.connect(MONGODB_URI, (err, db) => {
 
 })
 
-//#endregion
+//ROUTES
 app.post("/register", (req, res) => {
     console.log('in post registration');
     let name = req.body.register_name;
     let password = req.body.register_password;
     userfunctions.register(name, password, database);
-    //register(name, password, database);
     res.redirect('/track');
 });
 
 app.post("/login", (req, res) => {
-    console.log('in post login');
+
     let name = req.body.login_name;
     let password = req.body.login_password;
-
-    console.log('password', password);
     userfunctions.login(name, password, database, function(verified) {
-        console.log('verified =', verified);
         if (verified === true) {
             res.redirect('/track');
         } else {
@@ -56,9 +51,6 @@ app.post("/login", (req, res) => {
 app.get("/track", (req, res) => {
     res.send("you are in the tracker!");
 });
-
-
-
 
 app.listen(PORT, () => {
     console.log(`Example app listening on port ${PORT}!`);
