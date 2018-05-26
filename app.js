@@ -7,6 +7,7 @@ const app = express();
 const MongoClient = Mongo.MongoClient;
 const MONGODB_URI = "mongodb://127.0.0.1:27017/data";
 const PORT = process.env.PORT || 8080;
+app.set('view engine', 'html');
 let database;
 
 app.use(express.static('public'));
@@ -49,7 +50,7 @@ app.post("/login", (req, res) => {
 });
 
 app.get("/track", (req, res) => {
-    res.send("you are in the tracker!");
+    res.sendFile('/public/tracks.html', { root: '.' })
 });
 
 app.listen(PORT, () => {
