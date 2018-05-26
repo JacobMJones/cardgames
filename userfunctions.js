@@ -1,7 +1,22 @@
-module.exports = function(name, password, database) {
+const login = function(name, password, database, cb) {
+    console.log('user func', name, password);
+    let userQuery = { name: name }
 
+    database.collection('data').find(userQuery).toArray(function(err, result) {
+        if (err) throw err
 
-    console.log("info from form", name, password);
+        let storedPassword = result[0].password;
+
+        if (storedPassword === password) {
+            console.log('password is right');
+            cb(true);
+        } else {
+            cb(false);
+        }
+    });
+}
+
+const register = function(name, password, database) {
     let user = {
         "name": name,
         "password": password
@@ -10,7 +25,10 @@ module.exports = function(name, password, database) {
     database.collection('data').insertOne(user, function(err, res) {
         if (err) throw err;
         console.log('1 document inserted');
-
     })
+}
 
+module.exports = {
+    login: login,
+    register: register
 };

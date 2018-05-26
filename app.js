@@ -4,6 +4,10 @@ const bodyParser = require('body-parser');
 const Mongo = require('mongodb');
 const cookieSession = require('cookie-session');
 const register = require('./register');
+
+const userfunctions = require('./userfunctions');
+
+const login = require('./login');
 const app = express();
 const MongoClient = Mongo.MongoClient;
 const MONGODB_URI = "mongodb://127.0.0.1:27017/data";
@@ -29,12 +33,9 @@ MongoClient.connect(MONGODB_URI, (err, db) => {
 //#endregion
 app.post("/register", (req, res) => {
     console.log('in post registration');
-
     let name = req.body.register_name;
     let password = req.body.register_password;
-
     register(name, password, database);
-
     res.redirect('/track');
 });
 
@@ -43,20 +44,23 @@ app.post("/login", (req, res) => {
     let name = req.body.login_name;
     let password = req.body.login_password;
 
-    let userQuery = { name: name }
+    console.log('password', password);
+    userfunctions.login(name, password, database, function(verified) {
+        console.log('verified =', verified);
+        if (verified === true) {
+            res.redirect('/track');
+        } else {
+            res.redirect('/');
+        }
+    });
 
-    console.log('user query', userQuery);
-    // let query = { 'name': 'Jacob Jones' };
-    database.collection('data').find(userQuery).toArray(function(err, result) {
-        if (err) throw err;
-        console.log('query result', result);
-
-    })
 });
 
 app.get("/track", (req, res) => {
     res.send("you are in the tracker!");
 });
+
+
 
 
 app.listen(PORT, () => {
