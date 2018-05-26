@@ -3,7 +3,7 @@ const express = require("express");
 const bodyParser = require('body-parser');
 const Mongo = require('mongodb');
 const cookieSession = require('cookie-session');
-const userfunctions = require('./userfunctions');
+const register = require('./register');
 const app = express();
 const MongoClient = Mongo.MongoClient;
 const MONGODB_URI = "mongodb://127.0.0.1:27017/data";
@@ -27,14 +27,13 @@ MongoClient.connect(MONGODB_URI, (err, db) => {
 })
 
 //#endregion
-
 app.post("/register", (req, res) => {
     console.log('in post registration');
 
     let name = req.body.register_name;
     let password = req.body.register_password;
 
-    userfunctions(name, password, database);
+    register(name, password, database);
 
     res.redirect('/track');
 });
