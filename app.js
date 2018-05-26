@@ -46,11 +46,9 @@ app.post("/login", (req, res) => {
             res.redirect('/');
         }
     });
-
 });
-
 app.get("/track", (req, res) => {
-    res.sendFile('/public/tracks.html', { root: '.' })
+    res.sendFile('tracks.html', { root: '.' })
 });
 
 app.listen(PORT, () => {
