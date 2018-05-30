@@ -47,12 +47,13 @@ app.post("/login", (req, res) => {
         }
     });
 });
+
 app.get("/lobby", (req, res) => {
-    res.sendFile('lobby.html', { root: '.' })
+    res.sendFile('views/lobby.html', { root: '.' })
 });
 
 app.get("/mental", (req, res) => {
-    res.sendFile('mental.html', { root: '.' })
+    res.sendFile('views/mental.html', { root: '.' })
 });
 
 app.listen(PORT, () => {
