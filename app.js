@@ -32,7 +32,7 @@ app.post("/register", (req, res) => {
     let name = req.body.register_name;
     let password = req.body.register_password;
     userfunctions.register(name, password, database);
-    res.redirect('/track');
+    res.redirect('/lobby');
 });
 
 app.post("/login", (req, res) => {
@@ -41,14 +41,18 @@ app.post("/login", (req, res) => {
     let password = req.body.login_password;
     userfunctions.login(name, password, database, function(verified) {
         if (verified === true) {
-            res.redirect('/track');
+            res.redirect('/lobby');
         } else {
             res.redirect('/');
         }
     });
 });
-app.get("/track", (req, res) => {
-    res.sendFile('tracks.html', { root: '.' })
+app.get("/lobby", (req, res) => {
+    res.sendFile('lobby.html', { root: '.' })
+});
+
+app.get("/mental", (req, res) => {
+    res.sendFile('mental.html', { root: '.' })
 });
 
 app.listen(PORT, () => {
